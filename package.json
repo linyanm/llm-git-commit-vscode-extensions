@@ -1,0 +1,130 @@
+{
+  "name": "llm-git-commit-vscode-extensions",
+  "displayName": "LLM Git Commit",
+  "description": "Generate Git commit messages from staged changes in VS Code.",
+  "icon": "assets/icon.png",
+  "version": "1.0.0",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.116.0",
+    "node": ">=24"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/linyanm/llm-git-commit-vscode-extensions.git"
+  },
+  "publisher": "linyanm",
+  "categories": [
+    "SCM Providers",
+    "Other"
+  ],
+  "keywords": [
+    "git",
+    "commit",
+    "llm",
+    "ai",
+    "conventional-commits"
+  ],
+  "galleryBanner": {
+    "color": "#1f6feb",
+    "theme": "dark"
+  },
+  "markdown": "github",
+  "qna": false,
+  "activationEvents": [],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "llm-git-commit.generateCommitMessage",
+        "title": "LLM Git Commit: Generate Commit Message",
+        "category": "LLM Git Commit",
+        "icon": "$(sparkle)"
+      },
+      {
+        "command": "llm-git-commit.openSettings",
+        "title": "LLM Git Commit: Open Settings",
+        "category": "LLM Git Commit"
+      }
+    ],
+    "menus": {
+      "scm/title": [
+        {
+          "command": "llm-git-commit.generateCommitMessage",
+          "group": "navigation@-1",
+          "when": "scmProvider == git"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "LLM Git Commit",
+      "properties": {
+        "llmGitCommit.model": {
+          "type": "string",
+          "default": "",
+          "description": "The model name used to generate commit messages."
+        },
+        "llmGitCommit.apiBaseUrl": {
+          "type": "string",
+          "default": "",
+          "description": "The OpenAI-compatible API Base URL, for example https://api.openai.com/v1. The extension calls /chat/completions."
+        },
+        "llmGitCommit.apiKey": {
+          "type": "string",
+          "default": "",
+          "scope": "machine",
+          "description": "The OpenAI-compatible API key. It is stored in plain text in your local VS Code settings.json; never commit or share that file."
+        },
+        "llmGitCommit.commitStyle": {
+          "type": "string",
+          "default": "conventional",
+          "enum": [
+            "conventional",
+            "plain"
+          ],
+          "enumDescriptions": [
+            "Use Conventional Commits, for example feat: add commit generator.",
+            "Use a concise plain-language commit message."
+          ],
+          "description": "The format of generated commit messages."
+        },
+        "llmGitCommit.language": {
+          "type": "string",
+          "default": "en",
+          "enum": [
+            "en",
+            "zh-CN"
+          ],
+          "description": "The language of generated commit messages."
+        },
+        "llmGitCommit.customPrompt": {
+          "type": "string",
+          "default": "",
+          "editPresentation": "multilineText",
+          "description": "Additional instructions for generating commit messages. Supports multiple lines and Markdown as plain text. For example, require a scope, an issue number, or a specific tone."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "package": "vsce package",
+    "package:patch": "npm version patch --no-git-tag-version && npm run package",
+    "package:minor": "npm version minor --no-git-tag-version && npm run package",
+    "version:patch": "npm version patch --no-git-tag-version",
+    "version:minor": "npm version minor --no-git-tag-version",
+    "version:major": "npm version major --no-git-tag-version",
+    "test": "npm run test:unit",
+    "test:unit": "node --test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "22.x",
+    "@types/vscode": "^1.116.0",
+    "@vscode/test-cli": "^0.0.12",
+    "@vscode/test-electron": "^2.5.2",
+    "@vscode/vsce": "^3.9.1",
+    "eslint": "^9.39.3",
+    "globals": "^16.5.0"
+  }
+}
